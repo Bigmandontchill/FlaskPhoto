@@ -1,0 +1,17 @@
+{% extends "parent.html" %}
+{% block name %}Ablum{% endblock %} 
+{% block content %}
+<div class="container">
+<form method="POST" enctype=multipart/form-data >
+  <div class="form-group">
+    <label for=" file">file that you want to upload</label>
+  <div class="custom-file">
+    <input type="file" class="custom-file-input" id="customFile" name="file">
+    <label class="custom-file-label" for="customFile">Choose file</label>
+  </div>
+  </div>
+  <button type="submit" class="btn btn-primary mb-2">Upload</button>
+</form>
+</div>
+{% endblock %} 
+
