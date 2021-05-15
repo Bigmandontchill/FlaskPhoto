@@ -1,12 +1,12 @@
 from flask import Blueprint,render_template ,flash ,request,render_template,jsonify, Flask, flash, request, redirect, url_for
 import re
-auths=Blueprint('auths',__name__)
+auth=Blueprint('auth',__name__)
 
-@auths.route('/sign_in')
+@auth.route('/sign_in')
 def sign_in():
   return render_template("sign_in.html")
 
-@auths.route('/',methods=['GET','POST'])
+@auth.route('/',methods=['GET','POST'])
 def sign_up():  
     validate=False  
     if request.method=='POST': 
