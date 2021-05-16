@@ -2,10 +2,10 @@ from Gallery.models import Photo
 from flask import Blueprint,render_template ,flash ,request,render_template,jsonify, Flask, flash, request, redirect, url_for
 from flask_login.utils import login_fresh, login_required
 from . import app,db
-from .models import Photo,User 
+from .models import Photo,Like
 from werkzeug.utils import secure_filename
 from flask_login import  current_user
-import os
+import os ,json
 
 views=Blueprint('views',__name__)
 
@@ -37,18 +37,25 @@ def process_file(file):
     else:
           flash("Don't try something funny",category='error')     
 
-@views.route('/your_photo')
-@login_required
-def your_photo():
-   return render_template("photo.html",user=current_user)
-
-     
 @views.route('/our_post')
 @login_required
 def our_photo():
    photos=Photo.query.all()
-   users=User.query.all()
-   return render_template("our_photo.html",user=current_user,photos=photos,users=users )
+   return render_template("our_photo.html",user=current_user,photos=photos,Like=Like)
 
-
-
+@views.route('/add_like', methods=['POST'])
+@login_required
+def add_like():
+    data = json.loads(request.data)
+    print(data)
+    photoId = data['photoId']
+    like=Like.query.filter_by(photo_id=photoId,user_id=current_user.id).first()
+    if like:
+         flash("you can only like a picture once",category='error')
+    else:
+         like=Like(photo_id=photoId,user_id=current_user.id)
+         db.session.add(like)
+         db.session.commit()    
+    return jsonify(
+                    status=200
+                )

@@ -6,7 +6,7 @@ from .models import User
 from flask_login import login_user, login_required, logout_user, current_user
 import re
 auth=Blueprint('auth',__name__)
-photo='views.your_photo'
+photo='views.our_photo'
 
 @auth.route('/sign_in',methods=['GET','POST'])
 def sign_in():
