@@ -1,0 +1,42 @@
+.cards-spacing{
+  margin: 25px 0px 25px 0px;
+ /*  top-right-bottom-left*/
+}
+
+.post-title{
+  float:left;
+}
+.post-date{
+  float:right;
+}
+.card-text{
+  text-align: left;
+}
+.likes{
+  margin-top: 30px;
+}
+.card{
+  box-shadow:1px 1px 20px black ;
+  /* x-> right ,y->down* ,blur*/
+  border: 1px solid black;
+  background-color: rgba(59, 53, 53, 0.966);
+  color: black;
+}
+
+.card-footer{
+  padding:10px;
+}
+
+
+.comment{
+  float: left;
+  width:85%;
+}
+.like{
+  float: left;
+  width:12%;
+  margin-right: 4px;
+}
+
+
+

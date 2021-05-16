@@ -1,13 +1,15 @@
 {% extends "parent.html" %}
-{% block name %}Photo{% endblock %} 
-{% block link %} <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">{% endblock %}
+{% block name %}Photos{% endblock %}
+{% block link %}<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">{% endblock %}
+
 {% block content %} 
-{% for photo in user.photos %}
+{% for photo in photos %}
 <div class="col-md-9 col-sm-11 d-flex justify-content-center background" style="margin:auto;"  >
   <div class="cards-spacing">
       <div class="card text-center" style="width: 28rem;">
           <div class="card-header">
-              <span class="post-title">{{user.first_name+"'s post"}}</span>
+
+              <span class="post-title">{{photo.user.first_name}}'s post</span>
               <span class="post-date">{{photo.date}}</span>
           </div>
           <div class="card-body">

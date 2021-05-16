@@ -16,6 +16,7 @@
   href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
   crossorigin="anonymous"
 />
+{% block link %}{% endblock %}
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
@@ -29,6 +30,7 @@
         <a class="nav-item nav-link" href="/your_photo">Your Photo</a>
         <a class="nav-item nav-link" href="/post">Post</a>
         <a class="nav-item nav-link" href="/sign_out">Sign_out</a>
+        <a class="nav-item nav-link" href="/our_post">Our_Post</a>
         {% else %}
         <a class="nav-item nav-link" href="/sign_in">Sign_in</a>
         <a class="nav-item nav-link" href="/">Sign_up</a>
@@ -73,10 +75,6 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
-    <script
-      type="text/javascript"
-      src="{{ url_for('static', filename='index.js') }}"    
-  ></script>
 
 </body>
 </html>

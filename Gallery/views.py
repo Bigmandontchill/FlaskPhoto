@@ -1,6 +1,8 @@
+from Gallery.models import Photo
 from flask import Blueprint,render_template ,flash ,request,render_template,jsonify, Flask, flash, request, redirect, url_for
 from flask_login.utils import login_fresh, login_required
-from . import app
+from . import app,db
+from .models import Photo,User 
 from werkzeug.utils import secure_filename
 from flask_login import  current_user
 import os
@@ -27,6 +29,10 @@ def process_file(file):
     elif file and check_file(file.filename):# if the file is good
          filename=secure_filename(file.filename)
          file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+         description=request.form.get('description')
+         photo = Photo(description=description, path='static/'+filename,user_id=current_user.id)
+         db.session.add(photo)
+         db.session.commit()
          flash('you added your photo',category='success') 
     else:
           flash("Don't try something funny",category='error')     
@@ -36,9 +42,13 @@ def process_file(file):
 def your_photo():
    return render_template("photo.html",user=current_user)
 
-
      
-       
+@views.route('/our_post')
+@login_required
+def our_photo():
+   photos=Photo.query.all()
+   users=User.query.all()
+   return render_template("our_photo.html",user=current_user,photos=photos,users=users )
 
 
 
