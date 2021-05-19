@@ -2,7 +2,7 @@ from Gallery.models import Photo
 from flask import Blueprint,render_template ,flash ,request,render_template,jsonify, Flask, flash, request, redirect, url_for
 from flask_login.utils import login_fresh, login_required
 from . import app,db
-from .models import Photo,Like
+from .models import Photo,Like,Comment 
 from werkzeug.utils import secure_filename
 from flask_login import  current_user
 import os ,json
@@ -24,12 +24,14 @@ def post():
 
 
 def process_file(file):
-    if file.filename== '':# if user didn'y select anyfile
+    description=request.form.get('description')
+    if (len(description.strip())<1):   
+       flash("Please add your description",category='error')   
+    elif file.filename== '':# if user didn'y select anyfile
         flash('Please select a file to upload',category='error')
     elif file and check_file(file.filename):# if the file is good
          filename=secure_filename(file.filename)
          file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
-         description=request.form.get('description')
          photo = Photo(description=description, path='static/'+filename,user_id=current_user.id)
          db.session.add(photo)
          db.session.commit()
@@ -37,17 +39,31 @@ def process_file(file):
     else:
           flash("Don't try something funny",category='error')     
 
-@views.route('/our_post')
+@views.route('/our_post',methods=['GET','POST'])
 @login_required
 def our_photo():
+   if request.method=='POST':
+      comment=request.form.get('comment')
+      photo_id=request.form.get('photo_id')
+      check_comment(comment,photo_id)
    photos=Photo.query.all()
-   return render_template("our_photo.html",user=current_user,photos=photos,Like=Like)
+   return render_template("our_photo.html",user=current_user,photos=photos,Like=Like,Comment=Comment)
+
+
+def check_comment(comment,photo_id):
+     if (len(comment.strip())<1):   
+       flash("Please add your comment",category='error')  
+     else:
+         my_comment=Comment(photo_id=photo_id,user_id=current_user.id,body=comment)
+         db.session.add(my_comment)
+         db.session.commit()
+
+
 
 @views.route('/add_like', methods=['POST'])
 @login_required
 def add_like():
     data = json.loads(request.data)
-    print(data)
     photoId = data['photoId']
     like=Like.query.filter_by(photo_id=photoId,user_id=current_user.id).first()
     if like:
@@ -59,3 +75,12 @@ def add_like():
     return jsonify(
                     status=200
                 )
+
+
+
+
+
+
+
+
+

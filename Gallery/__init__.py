@@ -16,7 +16,7 @@ def make_app():
   db.init_app(app)
   from .views import views
   from .auth import auth
-  from .models import User,Photo,Like
+  from .models import User,Photo,Like,Comment
   make_database(app)
   app.register_blueprint(views,url_prefix='/')
   app.register_blueprint(auth,url_prefix='/')

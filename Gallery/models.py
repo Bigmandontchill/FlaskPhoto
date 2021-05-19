@@ -8,6 +8,7 @@ class User(db.Model,UserMixin):
    password=db.Column(db.String(150))
    first_name=db.Column(db.String(150))  
    photos=db.relationship('Photo',backref='user', lazy=True) 
+   comments=db.relationship('Comment',backref='user',lazy=True)
 
 class Photo(db.Model):
    id=db.Column(db.Integer,primary_key=True)    
@@ -15,11 +16,16 @@ class Photo(db.Model):
    path=db.Column(db.String(150))
    date=db.Column(db.DateTime(timezone=True),default=func.now())
    user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
-   likes=db.relationship('Like',backref='photo',lazy=True) 
 
 class Like(db.Model):
   photo_id=db.Column(db.Integer,db.ForeignKey('photo.id'),primary_key=True)
-  user_id=db.Column(db.Integer, primary_key=True)
+  user_id=db.Column(db.Integer,db.ForeignKey('user.id'), primary_key=True)
+
+class Comment(db.Model):
+  id=db.Column(db.Integer, primary_key=True)
+  photo_id=db.Column(db.Integer,db.ForeignKey('photo.id'))
+  user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
+  body=db.Column(db.String(10000))
 
 
 

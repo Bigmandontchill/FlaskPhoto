@@ -4,7 +4,7 @@
 
 {% block content %} 
 {% for photo in photos %}
-<form method="POST">
+
 <div class="col-md-9 col-sm-11 d-flex justify-content-center background" style="margin:auto;"  >
   <div class="cards-spacing">
       <div class="card text-center" style="width: 20rem; ">
@@ -22,16 +22,29 @@
           <div class="card-body">
               <img class="card-img-top" src={{photo.path}} alt="Card image cap">
               <p class="card-text likes">{{Like.query.filter_by(photo_id=photo.id).count()}} likes</p>
-              <p class="card-text">{{photo.description}}</p>
+              <div class="card-text">{{photo.description}}</div>
+              {% set comments =Comment.query.filter_by(photo_id=photo.id)%}
+              {% for comment in comments %}
+              <div class="card-text"> 
+              {% if comment.user.id==current_user.id%}
+                <b style="font-size: 15px;">Your comment:</b> 
+              {% else %}  
+                 <b style="font-size: 15px;">{{comment.user.first_name}}:</b> 
+              {% endif %}
+             <span  style="font-size: 14px;"> {{comment.body}}</span></div>
+              {% endfor %}
           </div>
           <div class="card-footer text-muted">
-            <button type="button" class="btn btn-dark like" onClick="addlike({{photo.id}})">like</button>
-              <input class="form-control comment" type="text" placeholder="Comments...">
+            <form method='POST'> 
+            <button type="button" class="btn btn-dark like" onClick="addlike({{photo.id}})">like</button>    
+              <input class="form-control comment" type="text" placeholder="Comments..." name="comment" >
+              <input type="hidden" value ={{photo.id}} name="photo_id">
           </div>
       </div>
   </div>
 </div>
 </form>
+
 {% endfor %}
 
 
