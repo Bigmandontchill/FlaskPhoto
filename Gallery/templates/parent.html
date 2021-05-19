@@ -27,8 +27,9 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         {% if user.is_authenticated %}
+        <a class="nav-item nav-link" href="/our_post">Our_Posts</a>
+        <a class="nav-item nav-link" href="/your_post">Your_Posts</a>
         <a class="nav-item nav-link" href="/post">Post</a>
-        <a class="nav-item nav-link" href="/our_post ">Our_Posts</a>
         <a class="nav-item nav-link" href="/sign_out">Sign_out</a>
         {% else %}
         <a class="nav-item nav-link" href="/sign_in">Sign_in</a>

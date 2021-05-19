@@ -10,6 +10,7 @@ class User(db.Model,UserMixin):
    photos=db.relationship('Photo',backref='user', lazy=True) 
    comments=db.relationship('Comment',backref='user',lazy=True)
 
+   
 class Photo(db.Model):
    id=db.Column(db.Integer,primary_key=True)    
    description=db.Column(db.String(10000))

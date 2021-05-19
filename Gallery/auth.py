@@ -23,7 +23,7 @@ def check_user():
       flash('logged in susccessful',category='success')
       login_user(user,remember=True)
       return True 
-   flash('in correct password',category='error')      
+   flash('Incorrect account or password',category='error')      
    return False      
 
 @auth.route('/',methods=['GET','POST'])
@@ -48,8 +48,11 @@ def valdation():
     first_name=request.form.get('firstname')
     password1=request.form.get('password1')
     password2=request.form.get('password2')
+    user=User.query.filter_by(email=email).first()
     if not re.match("[^@]+@[^@]+\.[^@]+", email):
        flash("email in wrong format",category='error')
+    elif (user):
+       flash("email already exist",category='error')
     elif len(first_name)<2:
        flash("name need to have more than one character",category='error')
     elif len(password1)<8:
