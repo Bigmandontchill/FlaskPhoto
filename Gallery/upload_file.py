@@ -9,12 +9,20 @@ import os
 upload_file=Blueprint('upload_file',__name__)
 
 def check_file(filename):
+     """ check if the file is the correct type or not
+    Args:
+        filename ([str]): name of the file 
+    Returns:
+        [Boolean]: true-> if file has the correct extension
+    """
      ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
      return '.' in filename and filename.rsplit('.',1)[1].lower() in  ALLOWED_EXTENSIONS
 
 @upload_file.route('/post',methods=['GET','POST'])
 @login_required
 def post(): 
+   """
+   Display the post picture page , and prcess the user's picture"""
    if request.method=='POST':
      file=request.files['file'] # get the file 
      process_file(file)
@@ -22,6 +30,11 @@ def post():
 
 
 def process_file(file):
+    """ check if the user selects the picture or not.
+        Add the path of the picture to the database if the user sumbits it correctly
+    Args:
+        file ([File]): the picture that the user wants to post 
+    """
     description=request.form.get('description')
     if (len(description.strip())<1):   
        flash("Please add your description",category='error')   

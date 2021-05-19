@@ -10,6 +10,9 @@ DB_NAME="database.db"
 UPLOAD_FOLDER = 'Gallery/static'
 app=Flask(__name__)
 def make_app():
+  """ link the login manager and database with the our web application
+      login manager handle login in and out
+  """
   app.config['SECRET_KEY']='1234'
   app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
   app.config['SQLALCHEMY_DATABASE_URI']=f'sqlite:///{DB_NAME}'

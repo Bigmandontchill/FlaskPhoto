@@ -5,17 +5,25 @@ from .models import User
 from flask_login import login_user, login_required, logout_user, current_user
 import re
 auth=Blueprint('auth',__name__)
-photo='views.our_photo'
+photos='views.our_photo'
 
 @auth.route('/sign_in',methods=['GET','POST'])
 def sign_in():
+   """Display the sign_in page
+   Redirect the user to the our_posts page if the user is authenticated or the user sign in sucessfully
+   """
    if(current_user.is_authenticated):
-      return redirect(url_for(photo))
+      return redirect(url_for(photos))
    if(request.method=='POST' and check_user()):
-      return redirect(url_for(photo))
+      return redirect(url_for(photos))
    return render_template("sign_in.html", user=current_user)
 
 def check_user():
+   """ check user's email and password
+   Returns:
+       [Boolean]: return true -> if user enters the correct password and email
+                  false -> otherwise
+   """
    email=request.form.get('email')
    password=request.form.get('password')
    user=User.query.filter_by(email=email).first()
@@ -28,22 +36,30 @@ def check_user():
 
 @auth.route('/',methods=['GET','POST'])
 def sign_up():  
+    """Display the sign_up page
+   Redirect the user to the our_posts page if the user is authenticated or the user sign up sucessfully"""
     validate=False
     if(current_user.is_authenticated):
-      return redirect(url_for(photo))
-    if  request.method=='POST': 
-       validate=valdation()
+      return redirect(url_for(photos))
+    if request.method=='POST': 
+        validate=valdation()
     if(validate):
-       return redirect(url_for(photo))
+       return redirect(url_for(photos))
     return render_template("sign_up.html",user=current_user)
 
 @auth.route('/sign_out')
 @login_required
 def sign_out():
+   """Log a user out and delete the cookies for the user. redirect the user to sign_in page 
+   """
    logout_user()
    return redirect(url_for('auth.sign_in'))
 
 def valdation(): 
+    """ Add the user's detail to the database if user enters the correct detail
+    Returns:
+       [Boolean]:  return true-> if user enters the correct password ,email and name  return false->otherwise 
+   """
     email=request.form.get('email')
     first_name=request.form.get('firstname')
     password1=request.form.get('password1')

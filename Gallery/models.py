@@ -16,13 +16,15 @@ class Photo(db.Model):
    description=db.Column(db.String(10000))
    path=db.Column(db.String(150))
    date=db.Column(db.DateTime(timezone=True),default=func.now())
-   user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
+   user_id=db.Column(db.Integer,db.ForeignKey('user.id'))# a user can have many pictures 
 
 class Like(db.Model):
+  # a user can only like a picture once
   photo_id=db.Column(db.Integer,db.ForeignKey('photo.id'),primary_key=True)
   user_id=db.Column(db.Integer,db.ForeignKey('user.id'), primary_key=True)
 
 class Comment(db.Model):
+    # a user can have many comments
   id=db.Column(db.Integer, primary_key=True)
   photo_id=db.Column(db.Integer,db.ForeignKey('photo.id'))
   user_id=db.Column(db.Integer,db.ForeignKey('user.id'))
