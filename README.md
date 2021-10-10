@@ -1,11 +1,10 @@
 
-Run Command: python main.py
 
 ### Features ###
 
 * Custom photo feed based on who you follow
 
-* Post photo posts from computers
+* Post photo from computers
 
 * Like posts
 
